@@ -1,0 +1,8 @@
+{
+  "name": "auto-pr-sync-scripts",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "playwright": "^1.43.0"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "auto-pr-sync-scripts",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "PR automation script using shared Playwright install from tests/playwrigh-tests"
+}
