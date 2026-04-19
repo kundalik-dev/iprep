@@ -67,7 +67,7 @@ iprep/                              ← pnpm workspace root
 
 ## Current Build Status
 
-**Phase: 0 — Monorepo Scaffold (NOT STARTED)**
+**Phase: 0 — Monorepo Scaffold (IN PROGRESS) → Phase 8 — Shared Schemas (DONE)**
 
 The project is in the planning/documentation stage. Source code directories exist but are empty. No `package.json` files, no `pnpm-workspace.yaml` yet.
 
@@ -75,7 +75,7 @@ The project is in the planning/documentation stage. Source code directories exis
 
 | Phase | Focus | Status |
 |---|---|---|
-| **0** | Monorepo scaffold — `package.json`, `pnpm-workspace.yaml`, placeholder packages | 🔴 Not started |
+| **0** | Monorepo scaffold — `package.json`, `pnpm-workspace.yaml`, placeholder packages | 🟡 In Progress |
 | **1** | `packages/llm/adapter-utils` — generic CLI process spawner | 🔴 Not started |
 | **2** | `packages/llm/adapters/claude` — Claude-specific adapter | 🔴 Not started |
 | **3** | `apps/cli` — `iprep init`, `iprep doctor`, `iprep status` commands | 🔴 Not started |
@@ -83,7 +83,7 @@ The project is in the planning/documentation stage. Source code directories exis
 | **5** | `apps/server` — Express REST API + WebSocket + analysis engine | 🔴 Not started |
 | **6** | `packages/llm/providers` — all LLM/STT/TTS provider implementations | 🔴 Not started |
 | **7** | `apps/frontend` — full voice interview React UI | 🔴 Not started |
-| **8** | `packages/shared` — finalize Zod schemas for all layers | 🔴 Not started |
+| **8** | `packages/shared` — finalize Zod schemas for all layers | 🟢 Done |
 | **9** | Build pipeline — `vite build` → serve from Express → npm publish | 🔴 Not started |
 | **10** | Polish, error handling, Razorpay billing, export, backup | 🔴 Not started |
 

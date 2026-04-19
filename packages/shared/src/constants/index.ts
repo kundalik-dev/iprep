@@ -1,6 +1,3 @@
-import os from "os";
-import path from "path";
-
 // App identity
 export const APP_NAME = "iprep";
 export const APP_VERSION = "0.0.1";
@@ -9,14 +6,6 @@ export const APP_VERSION = "0.0.1";
 export const DEFAULT_PORT = 3000; // server port
 export const DEFAULT_WS_PORT = 3001; // WebSocket port for real-time communication
 export const DEFAULT_FRONTEND_PORT = 5173; // Vite dev server port for frontend (only used in development)
-
-// All iPrep data lives under ~/.iprep/
-export const IPREP_HOME = path.join(os.homedir(), ".iprep");
-export const IPREP_DB_DIR = path.join(IPREP_HOME, "db");
-export const IPREP_DB_PATH = path.join(IPREP_DB_DIR, "iprep.db");
-export const IPREP_SESSIONS_FILE = path.join(IPREP_HOME, "sessions.json");
-export const IPREP_BACKUPS_DIR = path.join(IPREP_HOME, "backups");
-export const IPREP_KEYS_FILE = path.join(IPREP_HOME, ".keys"); // stores BYOK keys
 
 // Valid interview package types
 export const INTERVIEW_PACKAGE_SLUGS = [
