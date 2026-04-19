@@ -128,8 +128,8 @@ The project is in the planning/documentation stage. Source code directories exis
 - Prefer `interface` for objects that may be extended, `type` for unions/aliases
 
 ### Code Style
-- No comments unless the **why** is non-obvious
-- No docstrings or multi-line comment blocks
+- **Write small, focused code blocks** — split large logic into smaller functions/files, not one big block
+- **Comments:** add a short comment when the purpose isn't obvious from the name; never multi-line blocks; one line max
 - No unused variables, no `_` prefixes
 - No `console.log` in production code — use the Winston logger
 - Error handling only at system boundaries (API routes, external calls)
