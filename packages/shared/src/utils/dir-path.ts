@@ -49,4 +49,13 @@ export const IprepPaths = {
 
   /** Avatar → tutor assignment map: ~/.iprep/avatar-assignments.json */
   avatarAssignments: path.join(IPREP_HOME, "avatar-assignments.json"),
+
+  /** Interview session records: ~/.iprep/sessions.json */
+  sessions: path.join(IPREP_HOME, "sessions.json"),
+
+  /** Database backups: ~/.iprep/backups/ */
+  backups: path.join(IPREP_HOME, "backups"),
+
+  /** BYOK API keys (encrypted): ~/.iprep/.keys */
+  keysFile: path.join(IPREP_HOME, ".keys"),
 };
