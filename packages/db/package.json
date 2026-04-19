@@ -1,0 +1,22 @@
+{
+  "name": "@iprep/db",
+  "version": "0.0.1",
+  "description": "iPrep Prisma ORM — SQLite (local) → Postgres (cloud)",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "prisma": "^5.10.0",
+    "typescript": "^5.3.3"
+  }
+}
