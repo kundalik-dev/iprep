@@ -7,7 +7,15 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   eslintConfigPrettier,
   {
-    ignores: ['dist/', 'node_modules/', 'coverage/', '.pnpm-store/'],
+    ignores: [
+      'dist/',
+      'node_modules/',
+      'coverage/',
+      '.pnpm-store/',
+      '.claude/',
+      '.vscode/',
+      '.agents/',
+    ],
   },
   {
     rules: {
@@ -15,5 +23,5 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     },
-  }
+  },
 );
