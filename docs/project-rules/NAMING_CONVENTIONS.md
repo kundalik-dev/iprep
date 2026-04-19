@@ -9,22 +9,22 @@ Quick reference for consistent naming across the codebase.
 
 ## Style Table
 
-| Category | Style | Example |
-|----------|-------|---------|
-| Variable | `camelCase` | `userScore` |
-| Boolean variable | `camelCase` with `is`/`has`/`can` prefix | `isLoggedIn` |
-| Constant | `SCREAMING_SNAKE_CASE` | `MAX_RETRY_COUNT` |
-| Function / Method | `camelCase`, verb-first | `getUserById()` |
-| React Component | `PascalCase` | `QuizCard` |
-| TypeScript Interface | `PascalCase` with `I` prefix | `IUserSession` |
-| TypeScript Type alias | `PascalCase` | `ApiResponse` |
-| TypeScript Enum | `PascalCase` (members `SCREAMING_SNAKE_CASE`) | `enum Status { IN_PROGRESS }` |
-| Source file (TS/JS) | `kebab-case` | `user-service.ts` |
-| React component file | `PascalCase` | `QuizCard.tsx` |
-| Test file | same as source + `.test` / `.spec` | `user-service.test.ts` |
-| Folder / Directory | `kebab-case` | `adapter-utils/` |
-| Markdown doc file | `SCREAMING_SNAKE_CASE` | `NAMING_CONVENTIONS.md` |
-| Environment variable | `SCREAMING_SNAKE_CASE` | `DATABASE_URL` |
+| Category              | Style                                         | Example                       |
+| --------------------- | --------------------------------------------- | ----------------------------- |
+| Variable              | `camelCase`                                   | `userScore`                   |
+| Boolean variable      | `camelCase` with `is`/`has`/`can` prefix      | `isLoggedIn`                  |
+| Constant              | `SCREAMING_SNAKE_CASE`                        | `MAX_RETRY_COUNT`             |
+| Function / Method     | `camelCase`, verb-first                       | `getUserById()`               |
+| React Component       | `PascalCase`                                  | `QuizCard`                    |
+| TypeScript Interface  | `PascalCase` with `I` prefix                  | `IUserSession`                |
+| TypeScript Type alias | `PascalCase`                                  | `ApiResponse`                 |
+| TypeScript Enum       | `PascalCase` (members `SCREAMING_SNAKE_CASE`) | `enum Status { IN_PROGRESS }` |
+| Source file (TS/JS)   | `kebab-case`                                  | `user-service.ts`             |
+| React component file  | `PascalCase`                                  | `QuizCard.tsx`                |
+| Test file             | same as source + `.test` / `.spec`            | `user-service.test.ts`        |
+| Folder / Directory    | `kebab-case`                                  | `adapter-utils/`              |
+| Markdown doc file     | `SCREAMING_SNAKE_CASE`                        | `NAMING_CONVENTIONS.md`       |
+| Environment variable  | `SCREAMING_SNAKE_CASE`                        | `DATABASE_URL`                |
 
 ## Notes
 

@@ -1,4 +1,5 @@
 # iPrep Architecture (TypeScript + Vite, Live VAD)
+
 > Target: local-first product with an optional cloud tier
 > UI: React + Vite + TypeScript
 > Voice: live VAD-based speech-to-speech using OpenAI Realtime (recommended)
@@ -227,4 +228,3 @@ provider secrets server-side.
 4. Add `/api/realtime` WebSocket bridge to OpenAI Realtime.
 5. Store transcripts and session metadata in SQLite under `~/.iprep/`.
 6. Add a simple session UI: Start, Talk, Stop, Summary.
-

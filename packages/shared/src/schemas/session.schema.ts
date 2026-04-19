@@ -1,11 +1,11 @@
-import { z } from "zod";
-import { INTERVIEW_PACKAGE_SLUGS, INTERVIEW_MODES, TUTOR_SLUGS } from "../constants/index.js";
+import { z } from 'zod';
+import { INTERVIEW_PACKAGE_SLUGS, INTERVIEW_MODES, TUTOR_SLUGS } from '../constants/index.js';
 
 // Request body for POST /sessions — kicks off a new interview session
 export const StartSessionSchema = z.object({
   packageSlug: z.enum(INTERVIEW_PACKAGE_SLUGS),
   tutorSlug: z.enum(TUTOR_SLUGS),
-  mode: z.enum(INTERVIEW_MODES).default("voice"),
+  mode: z.enum(INTERVIEW_MODES).default('voice'),
   provider: z.string().optional(), // overrides default voice provider when set
 });
 
@@ -16,10 +16,10 @@ export const EndSessionSchema = z.object({
   transcript: z
     .array(
       z.object({
-        role: z.enum(["user", "assistant"]),
+        role: z.enum(['user', 'assistant']),
         content: z.string(),
         timestamp: z.string().datetime(),
-      })
+      }),
     )
     .optional(),
 });
@@ -27,7 +27,7 @@ export const EndSessionSchema = z.object({
 // Shape returned by all session endpoints
 export const SessionResponseSchema = z.object({
   sessionId: z.string(),
-  status: z.enum(["ACTIVE", "ENDED", "ANALYZING", "ANALYZED", "FAILED"]),
+  status: z.enum(['ACTIVE', 'ENDED', 'ANALYZING', 'ANALYZED', 'FAILED']),
   packageSlug: z.enum(INTERVIEW_PACKAGE_SLUGS),
   tutorSlug: z.enum(TUTOR_SLUGS),
   mode: z.enum(INTERVIEW_MODES),

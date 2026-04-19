@@ -17,6 +17,7 @@
 ## Deliverables
 
 ### 1. `FileName.ext` — Short Description
+
 **Path:** `relative/path/from/project/root`  
 **Est. tokens:** ~X,XXX
 
@@ -26,6 +27,7 @@
 - [Code snippets for state shapes, API contracts, etc.]
 
 ### 2. `AnotherFile.ext` — Short Description
+
 **Path:** `relative/path/from/project/root`  
 **Est. tokens:** ~X,XXX
 
@@ -33,12 +35,13 @@
 - [Number sequentially]
 
 ### N. Modifications to Existing Files
+
 **Est. tokens:** ~X,XXX
 
-| File | Change | Tokens |
-|------|--------|--------|
-| `existing-file.ext` | Description of what changes | ~XXX |
-| `another-file.ext` | Description of what changes | ~XXX |
+| File                | Change                      | Tokens |
+| ------------------- | --------------------------- | ------ |
+| `existing-file.ext` | Description of what changes | ~XXX   |
+| `another-file.ext`  | Description of what changes | ~XXX   |
 
 ---
 
@@ -54,10 +57,10 @@
 
 ## Files Changed
 
-| Action | File |
-|--------|------|
-| CREATE | `path/to/new/file.ext` |
+| Action  | File                                        |
+| ------- | ------------------------------------------- |
+| CREATE  | `path/to/new/file.ext`                      |
 | REPLACE | `path/to/placeholder.ext` (was placeholder) |
-| MODIFY | `path/to/existing/file.ext` |
+| MODIFY  | `path/to/existing/file.ext`                 |
 
 **Total files:** X created, Y modified

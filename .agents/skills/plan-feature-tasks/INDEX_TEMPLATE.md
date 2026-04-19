@@ -9,10 +9,10 @@
 
 ## Task Overview
 
-| # | Task | Phase | Priority | Est. Tokens | Depends On | Status |
-|---|------|-------|----------|-------------|------------|--------|
-| 01 | [Task Title](01-filename.md) | [id] | 🔴/🟡/🟢 | ~X,000 | [dep] | ⬜ TODO |
-| 02 | [Task Title](02-filename.md) | [id] | 🔴/🟡/🟢 | ~X,000 | [dep] | ⬜ TODO |
+| #   | Task                         | Phase | Priority | Est. Tokens | Depends On | Status  |
+| --- | ---------------------------- | ----- | -------- | ----------- | ---------- | ------- |
+| 01  | [Task Title](01-filename.md) | [id]  | 🔴/🟡/🟢 | ~X,000      | [dep]      | ⬜ TODO |
+| 02  | [Task Title](02-filename.md) | [id]  | 🔴/🟡/🟢 | ~X,000      | [dep]      | ⬜ TODO |
 
 ---
 
@@ -52,14 +52,14 @@
 
 ## Token Estimation Method
 
-| Factor | Basis |
-|--------|-------|
-| **JSX components** | ~25 tokens/line |
-| **CSS files** | ~15 tokens/line |
-| **Context/hooks** | ~30 tokens/line |
-| **Backend routes** | ~28 tokens/line |
-| **File modifications** | ~20 tokens/line |
-| **Overhead** | +15% for imports, error handling, comments |
+| Factor                 | Basis                                      |
+| ---------------------- | ------------------------------------------ |
+| **JSX components**     | ~25 tokens/line                            |
+| **CSS files**          | ~15 tokens/line                            |
+| **Context/hooks**      | ~30 tokens/line                            |
+| **Backend routes**     | ~28 tokens/line                            |
+| **File modifications** | ~20 tokens/line                            |
+| **Overhead**           | +15% for imports, error handling, comments |
 
 ---
 
@@ -67,15 +67,15 @@
 
 ### New Files (Total: N)
 
-| Category | Files |
-|----------|-------|
+| Category       | Files                    |
+| -------------- | ------------------------ |
 | **Components** | `File1.jsx`, `File2.jsx` |
-| **Styles** | `file.css` |
-| **Hooks** | `useHook.js` |
-| **Backend** | `route.js` |
+| **Styles**     | `file.css`               |
+| **Hooks**      | `useHook.js`             |
+| **Backend**    | `route.js`               |
 
 ### Modified Files (Total: N)
 
-| File | Tasks |
-|------|-------|
+| File           | Tasks  |
+| -------------- | ------ |
 | `filename.ext` | 01, 02 |

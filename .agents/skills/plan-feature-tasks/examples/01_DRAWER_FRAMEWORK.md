@@ -17,6 +17,7 @@ Create the collapsible right-side drawer infrastructure: context, container comp
 ## Deliverables
 
 ### 1. `DrawerContext.jsx` — State Management
+
 **Path:** `apps/web/src/context/DrawerContext.jsx`  
 **Est. tokens:** ~1,200
 
@@ -37,6 +38,7 @@ Actions:
 - Keyboard: `Escape` key closes drawer when open
 
 ### 2. `RightDrawer.jsx` — Container Component
+
 **Path:** `apps/web/src/components/Drawer/RightDrawer.jsx`  
 **Est. tokens:** ~2,000
 
@@ -49,6 +51,7 @@ Actions:
 - Close button visible on mobile
 
 ### 3. `DrawerTabs.jsx` — Segmented Tab Bar
+
 **Path:** `apps/web/src/components/Drawer/DrawerTabs.jsx`  
 **Est. tokens:** ~1,500
 
@@ -60,22 +63,27 @@ Actions:
 - Renders corresponding tab panel component
 
 ### 4. Placeholder Tab Content
+
 **Est. tokens:** ~1,200
 
 Create stub components that render simple placeholder content:
+
 - `DocumentsTab.jsx` — "📁 Documents will appear here"
-- `AICapabilityTab.jsx` — "🤖 AI capability files will appear here"  
+- `AICapabilityTab.jsx` — "🤖 AI capability files will appear here"
 - `SettingsTab.jsx` — "⚙️ Settings coming soon"
 
 Each must:
+
 - Wrap content in `<div role="tabpanel" aria-labelledby="tab-{name}">`
 - Use `fadeIn` animation on mount
 
 ### 5. `drawer.css` — All Drawer Styles
+
 **Path:** `apps/web/src/styles/drawer.css`  
 **Est. tokens:** ~3,000
 
 Styles needed:
+
 - `.right-drawer` — container, positioning, width, animation
 - `.right-drawer.open` — visible state
 - `.drawer-header` — top section with close button
@@ -90,27 +98,30 @@ Styles needed:
 - `@media (max-width: 1199px)` — overlay mode (not push)
 
 ### 6. CSS Token Additions
+
 **Path:** `apps/web/src/styles/variables.css`  
 **Est. tokens:** ~300
 
 Add to `:root`:
+
 ```css
---drawer-w:            380px;
---drawer-bg:           #111122;
---drawer-border:       rgba(255, 255, 255, 0.06);
---drawer-tab-bg:       rgba(255, 255, 255, 0.04);
---drawer-tab-active:   var(--color-primary);
+--drawer-w: 380px;
+--drawer-bg: #111122;
+--drawer-border: rgba(255, 255, 255, 0.06);
+--drawer-tab-bg: rgba(255, 255, 255, 0.04);
+--drawer-tab-active: var(--color-primary);
 ```
 
 ### 7. Modifications to Existing Files
+
 **Est. tokens:** ~2,800
 
-| File | Change | Tokens |
-|------|--------|--------|
-| `App.jsx` | Wrap in `<DrawerProvider>`, import `drawer.css` | ~400 |
-| `MainLayout.jsx` | Add `<RightDrawer />` after `.main-content` | ~600 |
-| `ChatHeader.jsx` | Add drawer toggle button (☰ icon) with `aria-expanded`, `aria-controls` | ~1,000 |
-| `layout.css` | Add transition on `.main-content` width when drawer open; add `.app-shell` flex handling | ~800 |
+| File             | Change                                                                                   | Tokens |
+| ---------------- | ---------------------------------------------------------------------------------------- | ------ |
+| `App.jsx`        | Wrap in `<DrawerProvider>`, import `drawer.css`                                          | ~400   |
+| `MainLayout.jsx` | Add `<RightDrawer />` after `.main-content`                                              | ~600   |
+| `ChatHeader.jsx` | Add drawer toggle button (☰ icon) with `aria-expanded`, `aria-controls`                 | ~1,000 |
+| `layout.css`     | Add transition on `.main-content` width when drawer open; add `.app-shell` flex handling | ~800   |
 
 ---
 
@@ -132,19 +143,19 @@ Add to `:root`:
 
 ## Files Changed
 
-| Action | File |
-|--------|------|
-| CREATE | `apps/web/src/context/DrawerContext.jsx` |
-| CREATE | `apps/web/src/components/Drawer/RightDrawer.jsx` |
-| CREATE | `apps/web/src/components/Drawer/DrawerTabs.jsx` |
-| CREATE | `apps/web/src/components/Drawer/DocumentsTab.jsx` (placeholder) |
+| Action | File                                                               |
+| ------ | ------------------------------------------------------------------ |
+| CREATE | `apps/web/src/context/DrawerContext.jsx`                           |
+| CREATE | `apps/web/src/components/Drawer/RightDrawer.jsx`                   |
+| CREATE | `apps/web/src/components/Drawer/DrawerTabs.jsx`                    |
+| CREATE | `apps/web/src/components/Drawer/DocumentsTab.jsx` (placeholder)    |
 | CREATE | `apps/web/src/components/Drawer/AICapabilityTab.jsx` (placeholder) |
-| CREATE | `apps/web/src/components/Drawer/SettingsTab.jsx` (placeholder) |
-| CREATE | `apps/web/src/styles/drawer.css` |
-| MODIFY | `apps/web/src/App.jsx` |
-| MODIFY | `apps/web/src/components/Layout/MainLayout.jsx` |
-| MODIFY | `apps/web/src/components/Chat/ChatHeader.jsx` |
-| MODIFY | `apps/web/src/styles/variables.css` |
-| MODIFY | `apps/web/src/styles/layout.css` |
+| CREATE | `apps/web/src/components/Drawer/SettingsTab.jsx` (placeholder)     |
+| CREATE | `apps/web/src/styles/drawer.css`                                   |
+| MODIFY | `apps/web/src/App.jsx`                                             |
+| MODIFY | `apps/web/src/components/Layout/MainLayout.jsx`                    |
+| MODIFY | `apps/web/src/components/Chat/ChatHeader.jsx`                      |
+| MODIFY | `apps/web/src/styles/variables.css`                                |
+| MODIFY | `apps/web/src/styles/layout.css`                                   |
 
 **Total files:** 7 created, 5 modified
