@@ -1,0 +1,19 @@
+{
+  "name": "@iprep/providers",
+  "version": "0.0.1",
+  "description": "iPrep LLM/STT/TTS/Agent provider implementations + registry",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@iprep/adapter-utils": "workspace:*",
+    "@iprep/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.3"
+  }
+}

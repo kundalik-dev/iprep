@@ -1,6 +1,25 @@
 # iPrep — Full System Architecture
 
 > Stack: Vite + React + Express + Prisma + Deepgram | Phase: Local-first → Cloud | Date: April 2026
+> Last updated: 2026-04-19
+
+## Current Build Status
+
+| Package / App                        | Status                  | Notes                                              |
+| ------------------------------------ | ----------------------- | -------------------------------------------------- |
+| `packages/shared`                    | 🟢 Done                 | Zod schemas + TS types complete, dist built        |
+| `packages/db`                        | 🟡 Structure done       | Prisma schema + query files created, no code yet   |
+| `packages/llm/adapter-utils`         | 🟡 Structure done       | All files created, no code yet                     |
+| `packages/llm/adapters/claude`       | 🟡 Structure done       | All files created, no code yet                     |
+| `packages/llm/adapters/codex`        | 🟡 Structure done       | All files created, no code yet                     |
+| `packages/llm/adapters/gemini`       | 🟡 Structure done       | All files created, no code yet                     |
+| `packages/llm/providers`             | 🔴 Not started          | —                                                  |
+| `apps/cli`                           | 🟡 Structure done       | All command + util files created, no code yet      |
+| `apps/server`                        | 🟡 Structure done       | All route/service/ws files created, no code yet    |
+| `apps/frontend`                      | 🟡 Structure done       | All pages/components/hooks created, no code yet    |
+| Root scaffold (tsconfig, workspaces) | 🟢 Done                 | tsconfig.base.json created, pnpm-workspace.yaml ✅ |
+
+---
 
 ---
 

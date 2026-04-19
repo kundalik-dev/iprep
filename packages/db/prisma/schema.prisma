@@ -1,0 +1,2 @@
+// Prisma schema — User, Settings, ApiKey, Package, Tutor, Session, Analysis
+// datasource: sqlite (local) → postgresql (cloud Phase 2), same schema

@@ -1,6 +1,7 @@
 # iPrep — Implementation Plan
 
 > Based on: ARCHITECTURE.md | Stack: Vite + React + Express + Prisma + Deepgram | Date: April 2026
+> Last updated: 2026-04-19
 
 ---
 
@@ -12,9 +13,12 @@
 
 ---
 
-## Phase 0 — Monorepo Scaffold 🟡 In Progress
+## Phase 0 — Monorepo Scaffold 🟢 Structure Done — Pending `pnpm install` verify
 
 **Duration: 0.5 day**
+
+> ✅ 2026-04-19: All folders, package.json files, tsconfig.json files, and tsconfig.base.json created.
+> Pending: run `pnpm install` to confirm workspace resolves with no errors.
 
 Set up the workspace skeleton. No logic — just folder structure, package.json files, and pnpm workspaces.
 
@@ -74,9 +78,12 @@ node -e "require('@iprep/shared')"       # No import errors
 
 ---
 
-## Phase 1 — LLM Adapter Utils (`packages/llm/adapter-utils`)
+## Phase 1 — LLM Adapter Utils (`packages/llm/adapter-utils`) 🟡 Structure Done — Pending Code
 
 **Duration: 2 days**
+
+> ✅ 2026-04-19: Folder structure and placeholder files created (process-spawner, session-manager, response-parser, stream-reader, error-handler).
+> Pending: implement actual logic in each file.
 
 Build a generic, reusable library to spawn any CLI as a child process. No Claude-specific logic yet — just the engine.
 
@@ -104,11 +111,15 @@ await spawner.kill();
 
 ---
 
-## Phase 2 — Claude Adapter (`packages/llm/adapters`)
+## Phase 2 — CLI Adapters (`packages/llm/adapters`) 🟡 Structure Done — Pending Code
 
 **Duration: 2 days**
 
-Wrap `adapter-utils` with Claude-specific knowledge: flags, JSON output format, session IDs, auth errors.
+> ✅ 2026-04-19: Folder structure created for claude, codex, and gemini adapters.
+> Each adapter has: spawner, parser, session (claude/gemini), errors, prompt-builder, index.
+> Pending: implement actual logic in each file.
+
+Wrap `adapter-utils` with CLI-specific knowledge: flags, JSON output format, session IDs, auth errors.
 
 ### Files to Create
 
@@ -149,9 +160,12 @@ node test-claude.js
 
 ---
 
-## Phase 3 — CLI (`apps/cli`)
+## Phase 3 — CLI (`apps/cli`) 🟡 Structure Done — Pending Code
 
 **Duration: 2 days**
+
+> ✅ 2026-04-19: Folder structure, package.json, tsconfig.json, bin/iprep.js, and all command + util placeholder files created.
+> Pending: implement each command (init, start, doctor, setup, status, sessions, analyze, export, keys).
 
 Build the command-line interface. Entry point to the whole application.
 
@@ -190,9 +204,12 @@ iprep status             # Shows provider availability (Deepgram, Gemini, CLI to
 
 ---
 
-## Phase 4 — Database (`packages/db`)
+## Phase 4 — Database (`packages/db`) 🟡 Structure Done — Pending Code
 
 **Duration: 2 days**
+
+> ✅ 2026-04-19: Folder structure, package.json, tsconfig.json, prisma/schema.prisma placeholder, and all query placeholder files created (sessions, analysis, packages, tutors, settings).
+> Pending: write Prisma schema models, implement query functions, run prisma generate.
 
 Prisma ORM with SQLite (→ Postgres in Phase 2 cloud). Auto-migrates on first run — no manual step.
 
@@ -236,9 +253,12 @@ const analysis = await analysis.create({ sessionId });
 
 ---
 
-## Phase 5 — Backend (`apps/server`)
+## Phase 5 — Backend (`apps/server`) 🟡 Structure Done — Pending Code
 
 **Duration: 3 days**
+
+> ✅ 2026-04-19: Folder structure, package.json, tsconfig.json, and all route/service/ws/util placeholder files created.
+> Pending: implement Express app, all routes, services, and WebSocket handlers.
 
 Express server that ties everything together: Deepgram proxy, analysis engine, REST API.
 
@@ -319,7 +339,7 @@ curl -X POST http://localhost:3000/api/interview/start \
 
 ---
 
-## Phase 6 — LLM Providers (`packages/llm/providers`)
+## Phase 6 — LLM Providers (`packages/llm/providers`) 🔴 Not Started
 
 **Duration: 2 days**
 
@@ -366,9 +386,12 @@ const result = await llm.analyze(transcript);
 
 ---
 
-## Phase 7 — Frontend (`apps/frontend`)
+## Phase 7 — Frontend (`apps/frontend`) 🟡 Structure Done — Pending Code
 
 **Duration: 4 days**
+
+> ✅ 2026-04-19: Folder structure, package.json, tsconfig.json, vite.config.ts, index.html, and all page/component/hook/store/lib/context placeholder files created.
+> Pending: implement all components, hooks, stores, and pages.
 
 React SPA — voice interview UI, analysis dashboard, settings.
 
@@ -517,20 +540,20 @@ iprep backup && iprep export <sessionId>
 
 ## Phase Summary
 
-| #         | Focus             | Duration   | Key Deliverable                                |
-| --------- | ----------------- | ---------- | ---------------------------------------------- |
-| **0**     | Monorepo scaffold | 0.5d       | `pnpm install` works, workspaces resolve       |
-| **1**     | adapter-utils     | 2d         | Spawn any CLI, send/receive via stdin/stdout   |
-| **2**     | Claude adapter    | 2d         | Chat with Claude from a script                 |
-| **3**     | CLI               | 2d         | `iprep init`, `iprep doctor`, `iprep status`   |
-| **4**     | Database          | 2d         | SQLite via Prisma, sessions + analysis persist |
-| **5**     | Backend           | 3d         | REST API + WS + analysis engine works via curl |
-| **6**     | LLM Providers     | 2d         | Full provider registry with fallback chain     |
-| **7**     | Frontend          | 4d         | Full voice interview UI in browser             |
-| **8**     | Shared schemas    | 1d         | Zod schemas used by both server + frontend     |
-| **9**     | Build + npm       | 1d         | `npm install -g iprep && iprep start` works    |
-| **10**    | Polish + billing  | 2d         | v1.0.0 ready, Razorpay, export, error handling |
-| **Total** |                   | **~22.5d** | Shippable product                              |
+| #         | Focus             | Duration   | Status                          | Key Deliverable                                |
+| --------- | ----------------- | ---------- | --------------------------------| ---------------------------------------------- |
+| **0**     | Monorepo scaffold | 0.5d       | 🟢 Structure done               | `pnpm install` works, workspaces resolve       |
+| **1**     | adapter-utils     | 2d         | 🟡 Structure done               | Spawn any CLI, send/receive via stdin/stdout   |
+| **2**     | CLI Adapters      | 2d         | 🟡 Structure done               | claude, codex, gemini adapters working         |
+| **3**     | CLI               | 2d         | 🟡 Structure done               | `iprep init`, `iprep doctor`, `iprep status`   |
+| **4**     | Database          | 2d         | 🟡 Structure done               | SQLite via Prisma, sessions + analysis persist |
+| **5**     | Backend           | 3d         | 🟡 Structure done               | REST API + WS + analysis engine works via curl |
+| **6**     | LLM Providers     | 2d         | 🔴 Not started                  | Full provider registry with fallback chain     |
+| **7**     | Frontend          | 4d         | 🟡 Structure done               | Full voice interview UI in browser             |
+| **8**     | Shared schemas    | 1d         | 🟢 Done                         | Zod schemas used by both server + frontend     |
+| **9**     | Build + npm       | 1d         | 🔴 Not started                  | `npm install -g iprep && iprep start` works    |
+| **10**    | Polish + billing  | 2d         | 🔴 Not started                  | v1.0.0 ready, Razorpay, export, error handling |
+| **Total** |                   | **~22.5d** |                                 | Shippable product                              |
 
 ---
 
