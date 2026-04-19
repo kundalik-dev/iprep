@@ -53,3 +53,10 @@ coverage/
 # Misc
 .temp/
 tmp/
+
+# Docs skipped files
+docs/business
+docs/feature
+docs/tasks
+docs/session-summary
+docs/tts-stt
