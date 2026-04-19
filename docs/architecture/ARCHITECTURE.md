@@ -1,24 +1,25 @@
 # iPrep — Full System Architecture
+
 > Stack: Vite + React + Express + Prisma + Deepgram | Phase: Local-first → Cloud | Date: April 2026
 
 ---
 
 ## Architecture Decisions (from Q&A + Business Analysis)
 
-| Decision | Choice | Reason |
-|---|---|---|
-| License | AGPL v3 (+ commercial license option) | Allows self-hosting + open source community, prevents SaaS clones; dual-license for future enterprise/white-label revenue |
-| Deployment | Local-first → Cloud (Option C) | Zero infra cost in Phase 1, cloud in Phase 2 |
-| Language | TypeScript (strict mode) | Type-safe adapters/plugin system, better DX for open source contributors, catches provider interface mismatches at compile time |
-| Frontend | Vite 5 + React 18 + React Router v6 | SPA is fine — no public SEO pages needed, voice UI is always behind setup/login, simpler build than Next.js |
-| Monorepo | Single repo (frontend + backend + packages) | Shared types via @iprep/shared, single PR, single CI pipeline, no cross-repo drift |
-| Validation | Zod (shared schemas) | Runtime validation at API boundaries + form validation in UI, single source of truth for shape of data |
-| BYOK scope | Deepgram, Anthropic, OpenAI, Gemini | All major providers |
-| Key storage | Local `.env` (Phase 1), encrypted DB (Phase 2) | Privacy-first local model |
-| CLI spawn | Claude CLI, Codex CLI, Gemini CLI, Ollama | ₹0 LLM cost for existing subscribers |
-| Auth | None for local, email+Stripe for cloud Pro | Ship fast in Phase 1 |
-| Database | SQLite (local) / Postgres (cloud) — same Prisma schema | Single codebase, two backends |
-| Analysis LLM | Gemini free > Claude CLI > Claude API > OpenAI | Cheapest first, fallback chain |
+| Decision     | Choice                                                 | Reason                                                                                                                          |
+| ------------ | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| License      | AGPL v3 (+ commercial license option)                  | Allows self-hosting + open source community, prevents SaaS clones; dual-license for future enterprise/white-label revenue       |
+| Deployment   | Local-first → Cloud (Option C)                         | Zero infra cost in Phase 1, cloud in Phase 2                                                                                    |
+| Language     | TypeScript (strict mode)                               | Type-safe adapters/plugin system, better DX for open source contributors, catches provider interface mismatches at compile time |
+| Frontend     | Vite 5 + React 18 + React Router v6                    | SPA is fine — no public SEO pages needed, voice UI is always behind setup/login, simpler build than Next.js                     |
+| Monorepo     | Single repo (frontend + backend + packages)            | Shared types via @iprep/shared, single PR, single CI pipeline, no cross-repo drift                                              |
+| Validation   | Zod (shared schemas)                                   | Runtime validation at API boundaries + form validation in UI, single source of truth for shape of data                          |
+| BYOK scope   | Deepgram, Anthropic, OpenAI, Gemini                    | All major providers                                                                                                             |
+| Key storage  | Local `.env` (Phase 1), encrypted DB (Phase 2)         | Privacy-first local model                                                                                                       |
+| CLI spawn    | Claude CLI, Codex CLI, Gemini CLI, Ollama              | ₹0 LLM cost for existing subscribers                                                                                            |
+| Auth         | None for local, email+Stripe for cloud Pro             | Ship fast in Phase 1                                                                                                            |
+| Database     | SQLite (local) / Postgres (cloud) — same Prisma schema | Single codebase, two backends                                                                                                   |
+| Analysis LLM | Gemini free > Claude CLI > Claude API > OpenAI         | Cheapest first, fallback chain                                                                                                  |
 
 ---
 
@@ -29,7 +30,7 @@
 │                         iPrep Platform                                  │
 │                                                                         │
 │  ┌──────────────┐     ┌──────────────┐     ┌──────────────────────┐   │
-│  │  iprep-web   │────▶│ @iprep/server│────▶│  Provider Registry   │   │
+│  │  @iprep/frontend   │────▶│ @iprep/server│────▶│  Provider Registry   │   │
 │  │  Vite + React│◀────│ Express + WS │◀────│  (Adapter Pattern)   │   │
 │  └──────────────┘     └──────┬───────┘     └──────────────────────┘   │
 │                              │                        │                 │
@@ -58,9 +59,10 @@ Future (Phase 3 — self-hosted):
 
 ---
 
-## Layer 1: Frontend (iprep-web)
+## Layer 1: Frontend (@iprep/frontend)
 
 ### Stack
+
 ```
 Vite 5            — Build tool + dev server (fast HMR)
 React 18          — UI framework
@@ -73,6 +75,7 @@ Zod               — Form validation + parsing API responses
 ```
 
 ### Why Vite (not Next.js)
+
 ```
 iPrep is always behind a setup/login step — no public pages that need SEO.
 Landing page lives on qaplatground.com (already has traffic).
@@ -81,7 +84,8 @@ Simpler build, faster iteration, lower complexity for open source contributors.
 Phase 2 cloud: add a simple Express-served landing page or separate static site.
 ```
 
-### TypeScript Config (apps/web)
+### TypeScript Config (apps/frontend)
+
 ```jsonc
 // tsconfig.json
 {
@@ -93,14 +97,15 @@ Phase 2 cloud: add a simple Express-served landing page or separate static site.
     "jsx": "react-jsx",
     "strict": true,
     "noUncheckedIndexedAccess": true,
-    "paths": { "@/*": ["./src/*"] }
-  }
+    "paths": { "@/*": ["./src/*"] },
+  },
 }
 ```
 
-### Directory Structure (apps/web)
+### Directory Structure (apps/frontend)
+
 ```
-apps/web/src/
+apps/frontend/src/
 ├── main.tsx                      # Vite entry point
 ├── App.tsx                       # Router setup
 │
@@ -157,6 +162,7 @@ apps/web/src/
 ```
 
 ### Provider Status UI (Key UX Feature)
+
 ```
 Settings → Provider Status shows:
 
@@ -185,6 +191,7 @@ Settings → Provider Status shows:
 ## Layer 2: Backend (@iprep/server)
 
 ### Stack
+
 ```
 Express 4         — HTTP server
 TypeScript 5      — Strict mode, compiled to dist/
@@ -192,11 +199,12 @@ tsx               — Dev-time TS execution (replaces node --watch)
 ws                — WebSocket server (Deepgram proxy + analysis stream)
 Prisma            — ORM (generates typed client)
 @iprep/db         — DB queries
-@iprep/providers  — Provider registry (new package)
+@iprep/llm  — Provider registry (new package)
 @iprep/shared     — Shared types/constants (source of truth for API types)
 ```
 
 ### TypeScript Config (server + packages)
+
 ```jsonc
 // tsconfig.json (base — extended by each package)
 {
@@ -210,12 +218,13 @@ Prisma            — ORM (generates typed client)
     "noUncheckedIndexedAccess": true,
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true
-  }
+    "sourceMap": true,
+  },
 }
 ```
 
 ### Directory Structure
+
 ```
 iprep-npm/apps/server/src/
 ├── index.js               # Server entry point
@@ -245,7 +254,7 @@ iprep-npm/apps/server/src/
 └── utils/
     ├── env.ts             # EXISTING — env validation + zod schema
     ├── logger.ts          # Winston logger
-    └── spawner.ts         # Re-exports from @iprep/providers/cli
+    └── spawner.ts         # Re-exports from @iprep/llm/adapter-utils
 ```
 
 ### API Routes
@@ -326,6 +335,7 @@ const ANALYSIS_PROVIDER_CHAIN = [
 ## Layer 3: CLI (@iprep/cli)
 
 ### Stack
+
 ```
 Commander 11      — CLI command parsing (typed options via generics)
 Inquirer 8        — Interactive prompts
@@ -337,6 +347,7 @@ TypeScript 5      — Compiled to dist/, tsx for dev
 ```
 
 ### Commands
+
 ```
 iprep setup                  First-run: configure API keys, detect CLIs
 iprep start                  Start server + open browser
@@ -353,6 +364,7 @@ iprep update                 Check for iprep npm updates
 ```
 
 ### CLI Auto-Detection (on `iprep setup` or `iprep status`)
+
 ```javascript
 // Detect installed AI CLIs — enables free analysis
 const detected = await detectCLIs();
@@ -375,54 +387,73 @@ const detected = await detectCLIs();
 
 ---
 
-## Layer 4: Provider Adapter System (@iprep/providers)
+## Layer 4: Provider Adapter System (@iprep/llm)
 
 This is the core extensibility layer. New package split from `adapter-utils`.
 
 ### Interface Contract
-```typescript
-// @iprep/providers/src/types.ts — shared with frontend via @iprep/shared
 
-export type ProviderType = 'llm' | 'stt' | 'tts' | 'agent';
+```typescript
+// @iprep/llm/src/types.ts — shared with frontend via @iprep/shared
+
+export type ProviderType = "llm" | "stt" | "tts" | "agent";
 
 export interface TranscriptMessage {
-  role: 'user' | 'assistant' | 'system';
+  role: "user" | "assistant" | "system";
   content: string;
   timestamp?: number;
 }
 
 export interface AnalysisResult {
   provider: string;
-  scores: { overall: number; communication: number; technical: number; confidence: number };
+  scores: {
+    overall: number;
+    communication: number;
+    technical: number;
+    confidence: number;
+  };
   strengths: string[];
   improvements: string[];
-  answerFeedback: { question: string; answer: string; feedback: string; score: number }[];
+  answerFeedback: {
+    question: string;
+    answer: string;
+    feedback: string;
+    score: number;
+  }[];
   report: string;
 }
 
 // LLM Provider
 export interface ILLMProvider {
   readonly name: string;
-  readonly type: 'llm';
+  readonly type: "llm";
   isAvailable(): Promise<boolean>;
-  complete(messages: TranscriptMessage[], opts?: CompletionOptions): AsyncIterable<string>;
-  analyze(transcript: TranscriptMessage[], opts?: AnalysisOptions): Promise<AnalysisResult>;
+  complete(
+    messages: TranscriptMessage[],
+    opts?: CompletionOptions,
+  ): AsyncIterable<string>;
+  analyze(
+    transcript: TranscriptMessage[],
+    opts?: AnalysisOptions,
+  ): Promise<AnalysisResult>;
 }
 
 // STT Provider
 export interface ISTTProvider {
   readonly name: string;
-  readonly type: 'stt';
+  readonly type: "stt";
   isAvailable(): Promise<boolean>;
   transcribe(audioStream: NodeJS.ReadableStream): AsyncIterable<{
-    text: string; isFinal: boolean; confidence: number;
+    text: string;
+    isFinal: boolean;
+    confidence: number;
   }>;
 }
 
 // TTS Provider
 export interface ITTSProvider {
   readonly name: string;
-  readonly type: 'tts';
+  readonly type: "tts";
   isAvailable(): Promise<boolean>;
   synthesize(text: string, voice: string): AsyncIterable<Buffer>;
 }
@@ -430,15 +461,16 @@ export interface ITTSProvider {
 // Agent Provider (all-in-one voice agent)
 export interface IAgentProvider {
   readonly name: string;
-  readonly type: 'agent';
+  readonly type: "agent";
   isAvailable(): Promise<boolean>;
   createSession(config: AgentSessionConfig): AgentSession;
 }
 ```
 
 ### Provider Implementations
+
 ```
-@iprep/providers/src/
+@iprep/llm/src/
 │
 ├── llm/
 │   ├── ClaudeAPIProvider.ts       BYOK — Anthropic API (@anthropic-ai/sdk)
@@ -471,33 +503,40 @@ export interface IAgentProvider {
 ```
 
 ### CLI Spawner Pattern (Key Architecture)
+
 ```typescript
 // llm/ClaudeCLIProvider.ts
-import { spawn } from 'node:child_process';
+import { spawn } from "node:child_process";
 
 export class ClaudeCLIProvider extends ILLMProvider {
-  get name() { return 'claude-cli' }
+  get name() {
+    return "claude-cli";
+  }
 
   async isAvailable() {
     try {
-      await execAsync('claude --version');
+      await execAsync("claude --version");
       return true;
-    } catch { return false; }
+    } catch {
+      return false;
+    }
   }
 
-  async analyze(transcript, { systemPrompt, format = 'json' }) {
+  async analyze(transcript, { systemPrompt, format = "json" }) {
     const prompt = buildAnalysisPrompt(transcript, systemPrompt);
 
     return new Promise((resolve, reject) => {
-      const proc = spawn('claude', ['--json', prompt], {
-        stdio: ['ignore', 'pipe', 'pipe']
+      const proc = spawn("claude", ["--json", prompt], {
+        stdio: ["ignore", "pipe", "pipe"],
       });
 
-      let output = '';
-      proc.stdout.on('data', d => output += d);
-      proc.stderr.on('data', d => logger.warn('claude-cli stderr:', d.toString()));
+      let output = "";
+      proc.stdout.on("data", (d) => (output += d));
+      proc.stderr.on("data", (d) =>
+        logger.warn("claude-cli stderr:", d.toString()),
+      );
 
-      proc.on('close', code => {
+      proc.on("close", (code) => {
         if (code !== 0) return reject(new Error(`claude-cli exited ${code}`));
         resolve(parseAnalysisOutput(output));
       });
@@ -509,6 +548,7 @@ export class ClaudeCLIProvider extends ILLMProvider {
 ```
 
 ### Provider Registry (Fallback Chain)
+
 ```typescript
 // registry.ts
 import type { ILLMProvider, ISTTProvider, ITTSProvider, IAgentProvider } from './types.js';
@@ -558,6 +598,7 @@ export class ProviderRegistry {
 ## Layer 5: Database (@iprep/db)
 
 ### Prisma Schema
+
 ```prisma
 // packages/db/prisma/schema.prisma
 
@@ -669,6 +710,7 @@ enum PackageType   { BEHAVIORAL TECHNICAL SYSTEM_DESIGN DSA HR PM CUSTOM }
 ```
 
 ### DB Strategy per Phase
+
 ```
 Phase 1 (Local):
   DATABASE_URL="file:~/.iprep/db.sqlite"
@@ -693,7 +735,7 @@ Phase 3 (Hybrid):
 
 ## Layer 6: Validation (Zod + @iprep/shared)
 
-Zod is the single source of truth for data shapes. Schemas live in `@iprep/shared` and are imported by both `apps/web` and `apps/server` — no duplicated type definitions, no drift.
+Zod is the single source of truth for data shapes. Schemas live in `@iprep/shared` and are imported by both `apps/frontend` and `apps/server` — no duplicated type definitions, no drift.
 
 ### Where Zod Is Used
 
@@ -708,42 +750,53 @@ apps/server — route body validation:
   POST /api/interview/start   → z.parse(req.body) with session.schema
   POST /api/settings/keys     → z.parse(req.body) with provider.schema
 
-apps/web — form validation:
+apps/frontend — form validation:
   Setup wizard               → provider.schema (key format check before saving)
   Interview start form       → session.schema (package + tutor selection)
 ```
 
 ### Example Schema (shared)
+
 ```typescript
 // @iprep/shared/src/schemas/session.schema.ts
-import { z } from 'zod';
+import { z } from "zod";
 
 export const StartSessionSchema = z.object({
-  packageSlug: z.enum(['behavioral', 'technical', 'system-design', 'dsa', 'hr', 'pm']),
-  tutorSlug:   z.string().min(1),
-  mode:        z.enum(['voice', 'text']).default('voice'),
-  provider:    z.string().optional(),
+  packageSlug: z.enum([
+    "behavioral",
+    "technical",
+    "system-design",
+    "dsa",
+    "hr",
+    "pm",
+  ]),
+  tutorSlug: z.string().min(1),
+  mode: z.enum(["voice", "text"]).default("voice"),
+  provider: z.string().optional(),
 });
 
 export type StartSessionInput = z.infer<typeof StartSessionSchema>;
-// Used identically in Express route (server) and form submit (web)
+// Used identically in Express route (server) and form submit (frontend)
 ```
 
 ### Env Validation (server startup)
+
 ```typescript
 // @iprep/shared/src/schemas/env.schema.ts
-import { z } from 'zod';
+import { z } from "zod";
 
 export const EnvSchema = z.object({
-  PORT:            z.string().default('3000'),
-  DATABASE_URL:    z.string().min(1),
-  ALLOWED_ORIGINS: z.string().default('http://localhost:5173'),
-  NODE_ENV:        z.enum(['development', 'production', 'test']).default('development'),
+  PORT: z.string().default("3000"),
+  DATABASE_URL: z.string().min(1),
+  ALLOWED_ORIGINS: z.string().default("http://localhost:5173"),
+  NODE_ENV: z
+    .enum(["development", "production", "test"])
+    .default("development"),
   // All BYOK keys optional — user provides at runtime
   DEEPGRAM_API_KEY: z.string().optional(),
   ANTHROPIC_API_KEY: z.string().optional(),
-  GEMINI_API_KEY:    z.string().optional(),
-  OPENAI_API_KEY:    z.string().optional(),
+  GEMINI_API_KEY: z.string().optional(),
+  OPENAI_API_KEY: z.string().optional(),
 });
 
 export type Env = z.infer<typeof EnvSchema>;
@@ -759,29 +812,26 @@ Single repository — frontend + backend + packages together.
 ```
 iprep/                              (pnpm workspace root — single GitHub repo)
 ├── apps/
-│   ├── web/                        @iprep/web — Vite + React (was iprep-web)
+│   ├── frontend/                   @iprep/frontend — Vite + React
 │   ├── server/                     @iprep/server — Express HTTP + WS
 │   └── cli/                        @iprep/cli — user-facing CLI
 │
 └── packages/
     ├── db/                         @iprep/db — Prisma schema + queries
-    ├── providers/                  @iprep/providers — all LLM/STT/TTS/Agent adapters
-    │   ├── src/llm/
-    │   ├── src/stt/
-    │   ├── src/tts/
-    │   ├── src/agent/
-    │   └── src/registry.ts
+    ├── llm/                        @iprep/llm — LLM providers and adapters
+    │   ├── providers/              LLM provider implementations
+    │   ├── adapters/               Provider adapters and integrations
+    │   └── adapter-utils/          Utility functions for adapters
     ├── shared/                     @iprep/shared — Zod schemas + TS types (source of truth)
-    │   ├── src/schemas/            Zod schemas shared by web + server
+    │   ├── src/schemas/            Zod schemas shared by frontend + server
     │   │   ├── session.schema.ts
     │   │   ├── analysis.schema.ts
     │   │   ├── provider.schema.ts
     │   │   └── env.schema.ts
     │   └── src/types/              Inferred types from Zod schemas
-    └── adapter-utils/              @iprep/adapter-utils — MIGRATE INTO providers
 
 Why single repo:
-  ✅ @iprep/shared types used by both web and server — no drift, one PR
+  ✅ @iprep/shared types used by both frontend and server — no drift, one PR
   ✅ Single CI pipeline (pnpm -r run build + test)
   ✅ Contributor clones one repo, runs one command
   ✅ Zod schema changes propagate instantly across all packages
@@ -792,6 +842,7 @@ Why single repo:
 ## Phase Roadmap
 
 ### Phase 1 — Local-First (Now → Month 3)
+
 Goal: Ship, get 30 paying users at ₹149/month
 
 ```
@@ -803,7 +854,7 @@ Goal: Ship, get 30 paying users at ₹149/month
 🔨 Build next:
   - PackageSelector + TutorSelector UI
   - Interview session lifecycle (start → end → analyze)
-  - @iprep/providers package (GeminiFreeProvider + ClaudeCLI first)
+  - @iprep/llm package (GeminiFreeProvider + ClaudeCLI first)
   - Analysis engine with fallback chain
   - AnalysisDashboard UI (ScoreCard, FeedbackPanel, TranscriptViewer)
   - iprep setup CLI wizard (key config + CLI detection)
@@ -813,6 +864,7 @@ Goal: Ship, get 30 paying users at ₹149/month
 ```
 
 ### Phase 2 — Cloud Tier (Month 4-9)
+
 Goal: Add ₹499/month managed cloud, 25+ cloud users
 
 ```
@@ -828,6 +880,7 @@ Goal: Add ₹499/month managed cloud, 25+ cloud users
 ```
 
 ### Phase 3 — Self-Hosted AI (Month 12+)
+
 Goal: Offer own STT/TTS/LLM, optional paid model
 
 ```
@@ -885,4 +938,4 @@ Contribution surface:
 
 ---
 
-*Architecture Version: 1.0 | iPrep Codex | April 2026*
+_Architecture Version: 1.0 | iPrep Codex | April 2026_
