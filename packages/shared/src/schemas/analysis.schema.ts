@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 // All scores are 0–10; overall is LLM-computed, not an average of the rest
 export const ScoreSchema = z.object({
@@ -24,7 +24,7 @@ export const AnalysisResultSchema = z.object({
 // Polled by the frontend to track async analysis progress
 export const AnalysisStatusSchema = z.object({
   sessionId: z.string(),
-  status: z.enum(["PENDING", "IN_PROGRESS", "COMPLETED", "FAILED"]),
+  status: z.enum(['PENDING', 'IN_PROGRESS', 'COMPLETED', 'FAILED']),
   progress: z.number().min(0).max(100).optional(), // 0–100 percentage, absent until IN_PROGRESS
   error: z.string().optional(),
   result: AnalysisResultSchema.optional(), // populated only when status is COMPLETED

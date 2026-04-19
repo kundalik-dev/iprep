@@ -11,7 +11,7 @@ export function formatTimestamp(date: string | number | Date): string {
 // Appends ellipsis only when text exceeds maxLength
 export function truncate(text: string, maxLength = 100): string {
   if (!text || text.length <= maxLength) return text;
-  return text.slice(0, maxLength) + "...";
+  return text.slice(0, maxLength) + '...';
 }
 
 // 🚫 check for what this used.
@@ -24,6 +24,6 @@ export function generateUserId(): string {
 export function slugify(text: string): string {
   return text
     .toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w-]/g, "");
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]/g, '');
 }

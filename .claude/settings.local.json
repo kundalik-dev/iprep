@@ -1,9 +1,5 @@
 {
   "permissions": {
-    "allow": [
-      "Skill(generate-feature-tasks)",
-      "Bash(xargs wc *)",
-      "Bash(xargs grep *)"
-    ]
+    "allow": ["Skill(generate-feature-tasks)", "Bash(xargs wc *)", "Bash(xargs grep *)"]
   }
 }

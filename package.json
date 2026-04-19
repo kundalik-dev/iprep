@@ -1,7 +1,7 @@
 {
-  "name": "iprep-root",
+  "name": "iprep",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "description": "iPrep — AI-powered interview preparation platform (monorepo root)",
   "license": "AGPL-3.0",
   "engines": {
@@ -13,10 +13,20 @@
     "dev": "pnpm --parallel -r run dev",
     "test": "pnpm -r run test",
     "lint": "pnpm -r run lint",
+    "lint:root": "eslint .",
+    "format": "prettier --write .",
     "typecheck": "pnpm -r run typecheck",
     "clean": "pnpm -r run clean"
   },
   "devDependencies": {
-    "typescript": "^5.5.0"
-  }
+    "@eslint/js": "^10.0.1",
+    "@typescript-eslint/eslint-plugin": "^8.58.2",
+    "@typescript-eslint/parser": "^8.58.2",
+    "eslint": "^10.2.1",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.3",
+    "typescript": "^5.5.0",
+    "typescript-eslint": "^8.58.2"
+  },
+  "author": "kudnalik-dev"
 }

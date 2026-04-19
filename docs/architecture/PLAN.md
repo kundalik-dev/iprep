@@ -1,4 +1,5 @@
 # iPrep — Implementation Plan
+
 > Based on: ARCHITECTURE.md | Stack: Vite + React + Express + Prisma + Deepgram | Date: April 2026
 
 ---
@@ -12,6 +13,7 @@
 ---
 
 ## Phase 0 — Monorepo Scaffold 🟡 In Progress
+
 **Duration: 0.5 day**
 
 Set up the workspace skeleton. No logic — just folder structure, package.json files, and pnpm workspaces.
@@ -64,6 +66,7 @@ iprep/
 ```
 
 ### Done When
+
 ```bash
 pnpm install                             # No errors
 node -e "require('@iprep/shared')"       # No import errors
@@ -72,6 +75,7 @@ node -e "require('@iprep/shared')"       # No import errors
 ---
 
 ## Phase 1 — LLM Adapter Utils (`packages/llm/adapter-utils`)
+
 **Duration: 2 days**
 
 Build a generic, reusable library to spawn any CLI as a child process. No Claude-specific logic yet — just the engine.
@@ -89,6 +93,7 @@ packages/llm/adapter-utils/src/
 ```
 
 ### Done When
+
 ```javascript
 const spawner = new ProcessSpawner({ command: 'cat', args: [] });
 await spawner.spawn();
@@ -100,6 +105,7 @@ await spawner.kill();
 ---
 
 ## Phase 2 — Claude Adapter (`packages/llm/adapters`)
+
 **Duration: 2 days**
 
 Wrap `adapter-utils` with Claude-specific knowledge: flags, JSON output format, session IDs, auth errors.
@@ -117,16 +123,21 @@ packages/llm/adapters/claude/
 ```
 
 ### ClaudeAdapter API
+
 ```typescript
 const adapter = new ClaudeAdapter({ tutorId: 'test', sessionId: 'session-1' });
-await adapter.verify();       // { ok: boolean, error?: string }
+await adapter.verify(); // { ok: boolean, error?: string }
 await adapter.chat({
-  systemPrompt, message, documents, history
-});                           // → { response: string, sessionId: string }
+  systemPrompt,
+  message,
+  documents,
+  history,
+}); // → { response: string, sessionId: string }
 await adapter.endSession(id);
 ```
 
 ### Done When
+
 ```bash
 # Script sends a message to Claude and gets a real response back
 node test-claude.js
@@ -139,6 +150,7 @@ node test-claude.js
 ---
 
 ## Phase 3 — CLI (`apps/cli`)
+
 **Duration: 2 days**
 
 Build the command-line interface. Entry point to the whole application.
@@ -168,6 +180,7 @@ apps/cli/
 ```
 
 ### Done When
+
 ```bash
 iprep --help             # Shows all commands
 iprep init               # Creates ~/.iprep/ structure
@@ -178,6 +191,7 @@ iprep status             # Shows provider availability (Deepgram, Gemini, CLI to
 ---
 
 ## Phase 4 — Database (`packages/db`)
+
 **Duration: 2 days**
 
 Prisma ORM with SQLite (→ Postgres in Phase 2 cloud). Auto-migrates on first run — no manual step.
@@ -202,6 +216,7 @@ packages/db/
 ```
 
 ### Prisma Schema (Key Models)
+
 ```
 User → Settings, Session[], ApiKey[]
 Session → Package, Analysis
@@ -211,6 +226,7 @@ Tutor  → slug (alex|priya|morgan), voice, systemPrompt
 ```
 
 ### Done When
+
 ```javascript
 await runMigrations();
 const session = await sessions.create({ userId, packageId, tutorId });
@@ -221,6 +237,7 @@ const analysis = await analysis.create({ sessionId });
 ---
 
 ## Phase 5 — Backend (`apps/server`)
+
 **Duration: 3 days**
 
 Express server that ties everything together: Deepgram proxy, analysis engine, REST API.
@@ -276,6 +293,7 @@ WS     /ws/agent                     Deepgram agent proxy (EXISTING)
 ```
 
 ### Analysis Engine (Provider Chain)
+
 ```
 cheapest first:
 1. Gemini 2.0 Flash (free tier)
@@ -289,6 +307,7 @@ cheapest first:
 ```
 
 ### Done When
+
 ```bash
 curl http://localhost:3000/health
 # → { "status": "ok", "activeSessionCount": 0 }
@@ -301,6 +320,7 @@ curl -X POST http://localhost:3000/api/interview/start \
 ---
 
 ## Phase 6 — LLM Providers (`packages/llm/providers`)
+
 **Duration: 2 days**
 
 Implement all provider adapters using the interfaces from `@iprep/shared`.
@@ -335,6 +355,7 @@ packages/llm/providers/
 ```
 
 ### Done When
+
 ```typescript
 const registry = new ProviderRegistry({ deepgramKey, geminiKey });
 const llm = await registry.resolveAnalysisProvider();
@@ -346,6 +367,7 @@ const result = await llm.analyze(transcript);
 ---
 
 ## Phase 7 — Frontend (`apps/frontend`)
+
 **Duration: 4 days**
 
 React SPA — voice interview UI, analysis dashboard, settings.
@@ -396,6 +418,7 @@ apps/frontend/src/
 ```
 
 ### Done When
+
 ```
 Open http://localhost:5173
 → Select behavioral interview + tutor
@@ -407,6 +430,7 @@ Open http://localhost:5173
 ---
 
 ## Phase 8 — Shared Schemas (`packages/shared`) 🟢 Done
+
 **Duration: 1 day**
 
 Finalize Zod schemas — used identically in server routes and frontend forms.
@@ -422,17 +446,19 @@ packages/shared/src/schemas/
 ```
 
 ### Done When
+
 ```typescript
 // Same import in server route AND frontend form:
 import { StartSessionSchema } from '@iprep/shared/schemas/session';
-StartSessionSchema.parse(req.body);   // server
-StartSessionSchema.parse(formData);   // frontend
+StartSessionSchema.parse(req.body); // server
+StartSessionSchema.parse(formData); // frontend
 // → no type drift between layers
 ```
 
 ---
 
 ## Phase 9 — Build Pipeline + npm Publish
+
 **Duration: 1 day**
 
 Wire the frontend build into Express so `iprep start` serves everything. Ship v1.0.0.
@@ -448,6 +474,7 @@ Wire the frontend build into Express so `iprep start` serves everything. Ship v1
 ```
 
 ### Done When
+
 ```bash
 npm install -g iprep
 iprep init
@@ -458,6 +485,7 @@ iprep start            # browser opens, full app works from npm package
 ---
 
 ## Phase 10 — Polish & Billing
+
 **Duration: 2 days**
 
 Error handling, export, Razorpay billing (₹149/month), and pre-publish checklist.
@@ -476,6 +504,7 @@ Error handling, export, Razorpay billing (₹149/month), and pre-publish checkli
 ```
 
 ### Done When
+
 ```bash
 # Fresh machine
 npm install -g iprep && iprep init && iprep doctor && iprep start
@@ -488,20 +517,20 @@ iprep backup && iprep export <sessionId>
 
 ## Phase Summary
 
-| # | Focus | Duration | Key Deliverable |
-|---|---|---|---|
-| **0** | Monorepo scaffold | 0.5d | `pnpm install` works, workspaces resolve |
-| **1** | adapter-utils | 2d | Spawn any CLI, send/receive via stdin/stdout |
-| **2** | Claude adapter | 2d | Chat with Claude from a script |
-| **3** | CLI | 2d | `iprep init`, `iprep doctor`, `iprep status` |
-| **4** | Database | 2d | SQLite via Prisma, sessions + analysis persist |
-| **5** | Backend | 3d | REST API + WS + analysis engine works via curl |
-| **6** | LLM Providers | 2d | Full provider registry with fallback chain |
-| **7** | Frontend | 4d | Full voice interview UI in browser |
-| **8** | Shared schemas | 1d | Zod schemas used by both server + frontend |
-| **9** | Build + npm | 1d | `npm install -g iprep && iprep start` works |
-| **10** | Polish + billing | 2d | v1.0.0 ready, Razorpay, export, error handling |
-| **Total** | | **~22.5d** | Shippable product |
+| #         | Focus             | Duration   | Key Deliverable                                |
+| --------- | ----------------- | ---------- | ---------------------------------------------- |
+| **0**     | Monorepo scaffold | 0.5d       | `pnpm install` works, workspaces resolve       |
+| **1**     | adapter-utils     | 2d         | Spawn any CLI, send/receive via stdin/stdout   |
+| **2**     | Claude adapter    | 2d         | Chat with Claude from a script                 |
+| **3**     | CLI               | 2d         | `iprep init`, `iprep doctor`, `iprep status`   |
+| **4**     | Database          | 2d         | SQLite via Prisma, sessions + analysis persist |
+| **5**     | Backend           | 3d         | REST API + WS + analysis engine works via curl |
+| **6**     | LLM Providers     | 2d         | Full provider registry with fallback chain     |
+| **7**     | Frontend          | 4d         | Full voice interview UI in browser             |
+| **8**     | Shared schemas    | 1d         | Zod schemas used by both server + frontend     |
+| **9**     | Build + npm       | 1d         | `npm install -g iprep && iprep start` works    |
+| **10**    | Polish + billing  | 2d         | v1.0.0 ready, Razorpay, export, error handling |
+| **Total** |                   | **~22.5d** | Shippable product                              |
 
 ---
 
@@ -510,6 +539,7 @@ iprep backup && iprep export <sessionId>
 > Always pass the "Done When" test before moving to the next phase.
 
 **Why this order:**
+
 - Phases 1-2 are pure Node.js — easiest to test and debug
 - Phase 3 (CLI) tests Phase 2 (Claude) without needing a server
 - Phase 4 (DB) must exist before Phase 5 (server) can persist anything
@@ -519,4 +549,4 @@ iprep backup && iprep export <sessionId>
 
 ---
 
-*Plan Version: 1.0 | iPrep Codex | April 2026*
+_Plan Version: 1.0 | iPrep Codex | April 2026_

@@ -396,10 +396,10 @@ This is the core extensibility layer. New package split from `adapter-utils`.
 ```typescript
 // @iprep/llm/src/types.ts — shared with frontend via @iprep/shared
 
-export type ProviderType = "llm" | "stt" | "tts" | "agent";
+export type ProviderType = 'llm' | 'stt' | 'tts' | 'agent';
 
 export interface TranscriptMessage {
-  role: "user" | "assistant" | "system";
+  role: 'user' | 'assistant' | 'system';
   content: string;
   timestamp?: number;
 }
@@ -426,22 +426,16 @@ export interface AnalysisResult {
 // LLM Provider
 export interface ILLMProvider {
   readonly name: string;
-  readonly type: "llm";
+  readonly type: 'llm';
   isAvailable(): Promise<boolean>;
-  complete(
-    messages: TranscriptMessage[],
-    opts?: CompletionOptions,
-  ): AsyncIterable<string>;
-  analyze(
-    transcript: TranscriptMessage[],
-    opts?: AnalysisOptions,
-  ): Promise<AnalysisResult>;
+  complete(messages: TranscriptMessage[], opts?: CompletionOptions): AsyncIterable<string>;
+  analyze(transcript: TranscriptMessage[], opts?: AnalysisOptions): Promise<AnalysisResult>;
 }
 
 // STT Provider
 export interface ISTTProvider {
   readonly name: string;
-  readonly type: "stt";
+  readonly type: 'stt';
   isAvailable(): Promise<boolean>;
   transcribe(audioStream: NodeJS.ReadableStream): AsyncIterable<{
     text: string;
@@ -453,7 +447,7 @@ export interface ISTTProvider {
 // TTS Provider
 export interface ITTSProvider {
   readonly name: string;
-  readonly type: "tts";
+  readonly type: 'tts';
   isAvailable(): Promise<boolean>;
   synthesize(text: string, voice: string): AsyncIterable<Buffer>;
 }
@@ -461,7 +455,7 @@ export interface ITTSProvider {
 // Agent Provider (all-in-one voice agent)
 export interface IAgentProvider {
   readonly name: string;
-  readonly type: "agent";
+  readonly type: 'agent';
   isAvailable(): Promise<boolean>;
   createSession(config: AgentSessionConfig): AgentSession;
 }
@@ -506,37 +500,35 @@ export interface IAgentProvider {
 
 ```typescript
 // llm/ClaudeCLIProvider.ts
-import { spawn } from "node:child_process";
+import { spawn } from 'node:child_process';
 
 export class ClaudeCLIProvider extends ILLMProvider {
   get name() {
-    return "claude-cli";
+    return 'claude-cli';
   }
 
   async isAvailable() {
     try {
-      await execAsync("claude --version");
+      await execAsync('claude --version');
       return true;
     } catch {
       return false;
     }
   }
 
-  async analyze(transcript, { systemPrompt, format = "json" }) {
+  async analyze(transcript, { systemPrompt, format = 'json' }) {
     const prompt = buildAnalysisPrompt(transcript, systemPrompt);
 
     return new Promise((resolve, reject) => {
-      const proc = spawn("claude", ["--json", prompt], {
-        stdio: ["ignore", "pipe", "pipe"],
+      const proc = spawn('claude', ['--json', prompt], {
+        stdio: ['ignore', 'pipe', 'pipe'],
       });
 
-      let output = "";
-      proc.stdout.on("data", (d) => (output += d));
-      proc.stderr.on("data", (d) =>
-        logger.warn("claude-cli stderr:", d.toString()),
-      );
+      let output = '';
+      proc.stdout.on('data', (d) => (output += d));
+      proc.stderr.on('data', (d) => logger.warn('claude-cli stderr:', d.toString()));
 
-      proc.on("close", (code) => {
+      proc.on('close', (code) => {
         if (code !== 0) return reject(new Error(`claude-cli exited ${code}`));
         resolve(parseAnalysisOutput(output));
       });
@@ -759,19 +751,12 @@ apps/frontend — form validation:
 
 ```typescript
 // @iprep/shared/src/schemas/session.schema.ts
-import { z } from "zod";
+import { z } from 'zod';
 
 export const StartSessionSchema = z.object({
-  packageSlug: z.enum([
-    "behavioral",
-    "technical",
-    "system-design",
-    "dsa",
-    "hr",
-    "pm",
-  ]),
+  packageSlug: z.enum(['behavioral', 'technical', 'system-design', 'dsa', 'hr', 'pm']),
   tutorSlug: z.string().min(1),
-  mode: z.enum(["voice", "text"]).default("voice"),
+  mode: z.enum(['voice', 'text']).default('voice'),
   provider: z.string().optional(),
 });
 
@@ -783,15 +768,13 @@ export type StartSessionInput = z.infer<typeof StartSessionSchema>;
 
 ```typescript
 // @iprep/shared/src/schemas/env.schema.ts
-import { z } from "zod";
+import { z } from 'zod';
 
 export const EnvSchema = z.object({
-  PORT: z.string().default("3000"),
+  PORT: z.string().default('3000'),
   DATABASE_URL: z.string().min(1),
-  ALLOWED_ORIGINS: z.string().default("http://localhost:5173"),
-  NODE_ENV: z
-    .enum(["development", "production", "test"])
-    .default("development"),
+  ALLOWED_ORIGINS: z.string().default('http://localhost:5173'),
+  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   // All BYOK keys optional — user provides at runtime
   DEEPGRAM_API_KEY: z.string().optional(),
   ANTHROPIC_API_KEY: z.string().optional(),

@@ -86,14 +86,14 @@ git push origin feat/onboarding-screen
 
 ### Conventional Commit Prefixes
 
-| Prefix | When to use |
-|--------|-------------|
-| `feat:` | New feature |
-| `fix:` | Bug fix |
-| `docs:` | Documentation only |
-| `chore:` | Config, deps, tooling |
+| Prefix      | When to use                          |
+| ----------- | ------------------------------------ |
+| `feat:`     | New feature                          |
+| `fix:`      | Bug fix                              |
+| `docs:`     | Documentation only                   |
+| `chore:`    | Config, deps, tooling                |
 | `refactor:` | Code restructure, no behavior change |
-| `test:` | Adding or updating tests |
+| `test:`     | Adding or updating tests             |
 
 ---
 

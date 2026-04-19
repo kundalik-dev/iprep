@@ -1,9 +1,8 @@
 ---
 name: draft-pr-document
 description: Draft a pull request document from the current (or specified) branch's commits and file changes, then save it to docs/pr-docs/ using the project PR template. Use when the user says "draft PR doc", "create PR document", "write PR file", "generate PR", or "make a PR".
-argument-hint: "[branch-name] (optional — defaults to current branch)"
-allowed-tools:
-  Bash
+argument-hint: '[branch-name] (optional — defaults to current branch)'
+allowed-tools: Bash
   Read
   Glob
   Write
@@ -38,11 +37,13 @@ git log dev_branch..HEAD --oneline --no-merges
 ```
 
 If both return empty, try:
+
 ```bash
 git log origin/main..HEAD --oneline --no-merges
 ```
 
 Then get the full diff summary:
+
 ```bash
 # Files changed with change type (A=added, M=modified, D=deleted)
 git diff main...HEAD --name-status
@@ -79,6 +80,7 @@ Also read the example at `docs/template/DEMO_PR_FILE.md` to calibrate tone and d
 Fill every section using what you learned from the commits and diff. Rules:
 
 ### Title
+
 - Generate a concise, human-readable PR title (max 72 characters)
 - Format: `[Prefix] Short description of what this PR does`
   - Prefix matches branch type: `feat:`, `fix:`, `docs:`, `chore:`
@@ -86,30 +88,36 @@ Fill every section using what you learned from the commits and diff. Rules:
 - Place this as `# Title` at the very top of the PR body, before `## Thinking Path`
 
 ### Thinking Path
+
 - Start with: "iPrep is a Multi-tutor AI chatbot for interview prep & self help"
 - Narrow through: subsystem → problem → why this PR exists → what it does → benefit
 - Use blockquote `>` style, 5–8 bullet points
 - Base this on the commit messages and changed files
 
 ### What Changed
+
 - One bullet per logical unit of change
 - Include the file path when relevant (e.g., `apps/cli/src/commands/onboard.js`)
 - Group related changes under one bullet if they are trivially linked
 
 ### Verification
+
 - Write concrete steps a reviewer can follow to confirm the change works
 - Include commands where applicable (`npm run dev`, `pnpm test`, specific CLI commands)
 - If the diff touches UI files, note that screenshots are needed
 
 ### Risks
+
 - Assess each changed file for migration, breaking-change, or behavioral risk
 - If genuinely low risk, write "Low risk — [reason]"
 
 ### Model Used
+
 - Fill in: `Claude Sonnet 4.6 (via Claude Code CLI) — 200k context window`
 - If the user tells you a different model was used, use that instead
 
 ### Checklist
+
 - Pre-tick `[x]` for:
   - Thinking path (you just wrote it)
   - Model used (you just filled it)
@@ -170,9 +178,9 @@ After writing the file tell the user:
 
 ## Error Handling
 
-| Situation | Action |
-|-----------|--------|
-| No commits found on branch | Ask user to confirm branch name; show `git log` output |
-| Branch diverged from both `main` and `dev_branch` | Use `HEAD~N` as base; note this in the file |
-| User on `main` or `dev_branch` directly | Ask which branch to use before proceeding |
-| `docs/pr-docs/` does not exist | Create it, then write the file |
+| Situation                                         | Action                                                 |
+| ------------------------------------------------- | ------------------------------------------------------ |
+| No commits found on branch                        | Ask user to confirm branch name; show `git log` output |
+| Branch diverged from both `main` and `dev_branch` | Use `HEAD~N` as base; note this in the file            |
+| User on `main` or `dev_branch` directly           | Ask which branch to use before proceeding              |
+| `docs/pr-docs/` does not exist                    | Create it, then write the file                         |

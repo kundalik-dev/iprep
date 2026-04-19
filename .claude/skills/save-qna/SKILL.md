@@ -1,9 +1,8 @@
 ---
 name: save-qna
 description: Save a question and its answer to the my-knowledge docs folder. Use when user asks "/save-qna <question>" or "save this question" or "add this to my knowledge".
-argument-hint: "<your question here>"
-allowed-tools:
-  Read
+argument-hint: '<your question here>'
+allowed-tools: Read
   Write
   Glob
   Bash
@@ -25,16 +24,16 @@ The question is in `$ARGUMENTS`. If empty, ask: "What is your question?"
 
 Pick the best matching folder based on keywords in the question:
 
-| Keywords in question | Folder |
-|---|---|
-| shared, schema, zod, constants, types | `shared` |
-| server, express, api, route, websocket | `server` |
-| frontend, react, vite, component, ui | `frontend` |
-| cli, command, iprep init, doctor | `cli` |
-| db, prisma, database, sqlite, query | `db` |
-| llm, provider, adapter, claude, gemini, deepgram | `llm` |
-| git, branch, commit, pr | `git` |
-| anything else | `general` |
+| Keywords in question                             | Folder     |
+| ------------------------------------------------ | ---------- |
+| shared, schema, zod, constants, types            | `shared`   |
+| server, express, api, route, websocket           | `server`   |
+| frontend, react, vite, component, ui             | `frontend` |
+| cli, command, iprep init, doctor                 | `cli`      |
+| db, prisma, database, sqlite, query              | `db`       |
+| llm, provider, adapter, claude, gemini, deepgram | `llm`      |
+| git, branch, commit, pr                          | `git`      |
+| anything else                                    | `general`  |
 
 Base path: `docs/ai-help/my-knowledge/<folder>/`
 
@@ -48,8 +47,8 @@ Base path: `docs/ai-help/my-knowledge/<folder>/`
 
 ```md
 ---
-name: "Q&A on <folder> package"
-description: "Questions and answers about <folder>"
+name: 'Q&A on <folder> package'
+description: 'Questions and answers about <folder>'
 ---
 ```
 
@@ -64,6 +63,7 @@ Read the file and count existing `## Q<n>` headings. Next number = count + 1.
 ## Step 5: Write the short answer
 
 Write a **short, clear answer** — aim for understanding, not completeness:
+
 - Max 3-4 small sections
 - Use a simple example if it helps
 - One-line summary at the end

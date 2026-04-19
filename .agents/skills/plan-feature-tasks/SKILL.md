@@ -1,9 +1,8 @@
 ---
 name: plan-feature-tasks
 description: Break down a feature into structured, numbered implementation task files with dependency graphs and token estimates. Use when the user says "plan tasks", "break down a feature", "create task files", "generate implementation tasks", or "create feature tasks".
-argument-hint: "[feature-name or spec-file-path]"
-allowed-tools:
-  Read
+argument-hint: '[feature-name or spec-file-path]'
+allowed-tools: Read
   Grep
   Glob
   Write
@@ -32,6 +31,7 @@ Create individual task files named `NN-kebab-case-name.md` (e.g., `01-drawer-fra
 Read the template at `${CLAUDE_SKILL_DIR}/TASK_TEMPLATE.md` and fill in all sections.
 
 Key rules:
+
 - **Header metadata** is mandatory: Phase, Priority, Estimated Tokens, Depends On, Ref
 - **Priority emojis**: 🔴 Critical (blocks others) | 🟡 High (core feature) | 🟢 Medium/Low
 - **Deliverables** are numbered. Each one has: `**Path:**` and `**Est. tokens:**`
@@ -45,6 +45,7 @@ Create `00-task-index.md` in the same folder.
 Read the template at `${CLAUDE_SKILL_DIR}/INDEX_TEMPLATE.md` and fill in all sections.
 
 The index MUST include:
+
 - Overview table with all tasks
 - ASCII dependency graph
 - Recommended sprint execution order with token budget per sprint
@@ -55,14 +56,14 @@ The index MUST include:
 
 Estimate tokens for each deliverable using these rates (calibrated from this project's existing files):
 
-| File Type             | Tokens/Line | Reference                                      |
-|-----------------------|-------------|------------------------------------------------|
-| TSX/JSX components    | ~25         | `ScoreCard.tsx` (94 lines ≈ 2,350 tokens)      |
-| CSS files             | ~15         | `chat.css` (258 lines ≈ 3,870 tokens)          |
-| Context/Hooks         | ~30         | `useSession.ts` (66 lines ≈ 1,980 tokens)      |
-| Backend routes        | ~28         | `interview.ts`, `analysis.ts`                  |
-| Utility/helper files  | ~22         | `api.ts` (48 lines ≈ 1,056 tokens)             |
-| File modifications    | ~20         | For changed sections only                       |
-| Config/JSON           | ~10         | `package.json` changes                          |
+| File Type            | Tokens/Line | Reference                                 |
+| -------------------- | ----------- | ----------------------------------------- |
+| TSX/JSX components   | ~25         | `ScoreCard.tsx` (94 lines ≈ 2,350 tokens) |
+| CSS files            | ~15         | `chat.css` (258 lines ≈ 3,870 tokens)     |
+| Context/Hooks        | ~30         | `useSession.ts` (66 lines ≈ 1,980 tokens) |
+| Backend routes       | ~28         | `interview.ts`, `analysis.ts`             |
+| Utility/helper files | ~22         | `api.ts` (48 lines ≈ 1,056 tokens)        |
+| File modifications   | ~20         | For changed sections only                 |
+| Config/JSON          | ~10         | `package.json` changes                    |
 
 Always add **+15% overhead** for imports, error handling, and type definitions.

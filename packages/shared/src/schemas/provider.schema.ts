@@ -1,16 +1,9 @@
-import { z } from "zod";
-import { PROVIDER_TYPES, LLM_PROVIDER_SLUGS } from "../constants/index.js";
+import { z } from 'zod';
+import { PROVIDER_TYPES, LLM_PROVIDER_SLUGS } from '../constants/index.js';
 
 // Payload for storing a user-supplied API key (BYOK flow)
 export const BYOKKeySchema = z.object({
-  provider: z.enum([
-    "deepgram",
-    "anthropic",
-    "gemini",
-    "openai",
-    "Ollama",
-    "other",
-  ]),
+  provider: z.enum(['deepgram', 'anthropic', 'gemini', 'openai', 'Ollama', 'other']),
   key: z.string().min(1),
 });
 
@@ -29,12 +22,12 @@ export const ProviderConfigSchema = z.object({
   geminiApiKey: z.string().trim().min(1).optional(),
   openaiApiKey: z.string().trim().min(1).optional(),
   preferredLLMProvider: z.enum(LLM_PROVIDER_SLUGS).optional(),
-  ollamaBaseUrl: z.string().url().default("http://localhost:11434"),
+  ollamaBaseUrl: z.string().url().default('http://localhost:11434'),
 });
 
 // Request body for the key-validation endpoint
 export const ValidateKeySchema = z.object({
-  provider: z.enum(["deepgram", "anthropic", "gemini", "openai"]),
+  provider: z.enum(['deepgram', 'anthropic', 'gemini', 'openai']),
   key: z.string().min(1),
 });
 
