@@ -11,7 +11,7 @@
 
 ---
 
-## Phase 0 — Monorepo Scaffold
+## Phase 0 — Monorepo Scaffold 🟡 In Progress
 **Duration: 0.5 day**
 
 Set up the workspace skeleton. No logic — just folder structure, package.json files, and pnpm workspaces.
@@ -406,7 +406,7 @@ Open http://localhost:5173
 
 ---
 
-## Phase 8 — Shared Schemas (`packages/shared`)
+## Phase 8 — Shared Schemas (`packages/shared`) 🟢 Done
 **Duration: 1 day**
 
 Finalize Zod schemas — used identically in server routes and frontend forms.
